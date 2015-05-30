@@ -1,0 +1,17 @@
+{
+    "name": "av/bonefish-utility",
+    "description": "Bonefish utility classes",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+      "av/bonefish-injection": "dev-master",
+      "av/bonefish-traits": "dev-master",
+      "nette/neon": "2.3.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bonefish\\Utility\\": ["src"],
+            "Bonefish\\Tests\\Utility\\": ["tests"]
+        }
+    }
+}
