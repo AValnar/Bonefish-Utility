@@ -88,7 +88,20 @@ class ConfigurationManager
         return $this->configurations[$path];
     }
 
+    /**
+     * @param array ...$configurations
+     * @throws \BadFunctionCallException
+     * @return array
+     */
+    public function mergeConfigurations(array ...$configurations)
+    {
+        if (count($configurations) < 2)
+        {
+            throw new \BadFunctionCallException('At least two configurations have to be supplied to merge.');
+        }
 
+        return array_merge_recursive(...$configurations);
+    }
 
     /**
      * @param string $path
