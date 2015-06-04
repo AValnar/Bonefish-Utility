@@ -33,7 +33,7 @@ class ConfigurationManager
     /**
      * @var array
      */
-    protected $configurations = array();
+    protected $configurations = [];
 
 
     /**
@@ -43,17 +43,12 @@ class ConfigurationManager
     public $neon;
 
     /**
-     * @var string
-     */
-    protected $cachePrefix = 'bonefish.config';
-
-
-    /**
      * @param Cache $cache
      */
     public function __construct(Cache $cache = null)
     {
         $this->cache = $cache;
+        $this->setCachePrefix('bonefish.config.');
     }
 
 

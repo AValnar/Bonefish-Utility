@@ -56,7 +56,7 @@ class RegisterContainerImplementations implements Task
         $configurationPath = $this->environment->getFullConfigurationPath();
         $configuration = $this->configurationManager->getConfiguration($configurationPath . '/Configuration.neon');
 
-        foreach($configuration['implementations'] as $interface => $implementation)
+        foreach($configuration['implementations'] as $implementation => $interface)
         {
             $this->container->setInterfaceImplementation($interface, $implementation);
         }

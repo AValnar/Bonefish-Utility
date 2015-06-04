@@ -27,14 +27,14 @@ use Bonefish\Injection\FactoryInterface;
 
 class EnvironmentFactory implements FactoryInterface
 {
-    protected $allowedOptions = array(
+    protected $allowedOptions = [
         'basePath' => 'setBasePath',
         'devMode' => 'setDevMode',
         'configurationPath' => 'setConfigurationPath',
         'packagePath' => 'setPackagePath',
         'cachePath' => 'setCachePath',
         'logPath' => 'setLogPath'
-    );
+    ];
 
     /**
      * Return an object with fully injected dependencies
@@ -42,7 +42,7 @@ class EnvironmentFactory implements FactoryInterface
      * @param array $parameters
      * @return mixed
      */
-    public function create(array $parameters = array())
+    public function create(array $parameters = [])
     {
         $environment = new Environment();
 
