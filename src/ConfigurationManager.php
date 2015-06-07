@@ -54,14 +54,15 @@ class ConfigurationManager
 
     /**
      * @param string $path
+     * @param bool $useCache
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function getConfiguration($path)
+    public function getConfiguration($path, $useCache = true)
     {
         if (!isset($this->configurations[$path])) {
 
-            if ($this->cache !== null) {
+            if ($this->cache !== null && $useCache) {
                 $cacheKey = $this->getCacheKey($path);
                 $hit = $this->cache->fetch($cacheKey);
 
@@ -77,6 +78,9 @@ class ConfigurationManager
             $this->configurations[$path] = $this->neon->decode($config);
 
             if ($this->cache !== null) {
+                if (!isset($cacheKey)) {
+                    $cacheKey = $this->getCacheKey($path);
+                }
                 $this->cache->save($cacheKey, $this->configurations[$path]);
             }
         }
