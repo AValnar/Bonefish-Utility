@@ -16,18 +16,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @author     Alexander Schmidt <mail@story75.com>
  * @copyright  Copyright (c) 2015, Alexander Schmidt
- * @date       29.05.2015
+ * @date       08.06.2015
  */
+namespace Bonefish\Utility\Configuration;
 
-namespace Bonefish\Utility\Bootstrap;
-
-
-interface Task
+interface ConfigurationManagerInterface
 {
     /**
-     * Run this specific task
-     *
-     * @return bool Return if task was successful
+     * @param string $path
+     * @return array
+     * @throws \InvalidArgumentException
      */
-    public function runTask();
+    public function getConfiguration($path);
+
+    /**
+     * @param array ...$configurations
+     * @throws \BadFunctionCallException
+     * @return array
+     */
+    public function mergeConfigurations(array ...$configurations);
+
+    /**
+     * @param string $path
+     * @param array $data
+     * @throws \InvalidArgumentException
+     */
+    public function writeConfiguration($path, array $data);
 }

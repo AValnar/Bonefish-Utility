@@ -19,21 +19,15 @@
  * @date       29.05.2015
  */
 
-namespace Bonefish\Utility;
+namespace Bonefish\Utility\Configuration;
 
 
 use Bonefish\Traits\DoctrineCacheTrait;
-use Doctrine\Common\Cache\Cache;
 
-class ConfigurationManager
+class ConfigurationManager implements ConfigurationManagerInterface
 {
 
     use DoctrineCacheTrait;
-
-    /**
-     * @var array
-     */
-    protected $configurations = [];
 
 
     /**
@@ -41,15 +35,6 @@ class ConfigurationManager
      * @Bonefish\Inject
      */
     public $neon;
-
-    /**
-     * @param Cache $cache
-     */
-    public function __construct(Cache $cache = null)
-    {
-        $this->cache = $cache;
-        $this->setCachePrefix('bonefish.config.');
-    }
 
 
     /**
@@ -60,31 +45,12 @@ class ConfigurationManager
      */
     public function getConfiguration($path, $useCache = true)
     {
-        if (!isset($this->configurations[$path])) {
-
-            if ($this->cache !== null && $useCache) {
-                $cacheKey = $this->getCacheKey($path);
-                $hit = $this->cache->fetch($cacheKey);
-
-                if ($hit !== false) {
-                    return $hit;
-                }
-            }
-
-            if (!file_exists($path)) {
-                throw new \InvalidArgumentException('Configuration ' . $path . ' does not exist!');
-            }
-            $config = file_get_contents($path);
-            $this->configurations[$path] = $this->neon->decode($config);
-
-            if ($this->cache !== null) {
-                if (!isset($cacheKey)) {
-                    $cacheKey = $this->getCacheKey($path);
-                }
-                $this->cache->save($cacheKey, $this->configurations[$path]);
-            }
+        if (!file_exists($path)) {
+            throw new \InvalidArgumentException('Configuration ' . $path . ' does not exist!');
         }
-        return $this->configurations[$path];
+        $config = file_get_contents($path);
+
+        return $this->neon->decode($config);
     }
 
     /**
@@ -94,8 +60,7 @@ class ConfigurationManager
      */
     public function mergeConfigurations(array ...$configurations)
     {
-        if (count($configurations) < 2)
-        {
+        if (count($configurations) < 2) {
             throw new \BadFunctionCallException('At least two configurations have to be supplied to merge.');
         }
 
@@ -104,10 +69,10 @@ class ConfigurationManager
 
     /**
      * @param string $path
-     * @param string $data
+     * @param array $data
      * @throws \InvalidArgumentException
      */
-    public function writeConfiguration($path, $data)
+    public function writeConfiguration($path, array $data)
     {
         $file = $this->neon->encode($data, 1);
 

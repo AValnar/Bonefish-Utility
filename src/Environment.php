@@ -21,7 +21,7 @@
 
 namespace Bonefish\Utility;
 
-class Environment
+final class Environment
 {
 
     /**

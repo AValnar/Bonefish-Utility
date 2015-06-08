@@ -25,7 +25,7 @@ namespace Bonefish\Utility\Factory;
 use Bonefish\Utility\Environment;
 use Bonefish\Injection\FactoryInterface;
 
-class EnvironmentFactory implements FactoryInterface
+final class EnvironmentFactory implements FactoryInterface
 {
     protected $allowedOptions = [
         'basePath' => 'setBasePath',

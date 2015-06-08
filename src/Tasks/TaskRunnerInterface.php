@@ -16,57 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @author     Alexander Schmidt <mail@story75.com>
  * @copyright  Copyright (c) 2015, Alexander Schmidt
- * @date       29.05.2015
+ * @date       08.06.2015
  */
+namespace Bonefish\Utility\Tasks;
 
-namespace Bonefish\Utility\Bootstrap;
-
-
-class TaskRunner
+interface TaskRunnerInterface
 {
-    /**
-     * @var Task[]
-     */
-    protected $tasks;
-
     /**
      * @return Task
      */
-    public function getTasks()
-    {
-        return $this->tasks;
-    }
+    public function getTasks();
 
     /**
      * @param Task[] $tasks
      * @return self
      */
-    public function setTasks($tasks)
-    {
-        $this->tasks = $tasks;
-        return $this;
-    }
+    public function setTasks($tasks);
 
     /**
      * @param Task $task
      * @return self
      */
-    public function addTask($task)
-    {
-        $this->tasks[] = $task;
-        return $this;
-    }
+    public function addTask($task);
 
-    public function execute()
-    {
-        /** @var Task $task */
-        foreach($this->tasks as $key => $task)
-        {
-            if (!$task->runTask()) {
-                throw new \RuntimeException('Could not bootstrap project. Task #' . $key .' ' . get_class($task) . ' failed.');
-            }
-
-            unset($this->tasks[$key]);
-        }
-    }
+    public function execute();
 }

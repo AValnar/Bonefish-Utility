@@ -22,12 +22,13 @@
 namespace Bonefish\Utility\Tasks;
 
 use Bonefish\Injection\ContainerInterface;
-use Bonefish\Utility\Bootstrap\Task;
-use Bonefish\Utility\ConfigurationManager;
+use Bonefish\Utility\Configuration\Decorator\CachedConfigurationManager;
 use Bonefish\Utility\Environment;
 
-class RegisterContainerImplementations implements Task
+final class RegisterContainerImplementations implements Task
 {
+    const DEFAULT_CONFIGURATION_FILE = '/Configuration.neon';
+
     /**
      * @var Environment
      * @Bonefish\Inject
@@ -35,7 +36,7 @@ class RegisterContainerImplementations implements Task
     public $environment;
 
     /**
-     * @var ConfigurationManager
+     * @var CachedConfigurationManager
      * @Bonefish\Inject
      */
     public $configurationManager;
@@ -47,6 +48,17 @@ class RegisterContainerImplementations implements Task
     public $container;
 
     /**
+     * @var string
+     */
+    protected $configurationFile;
+
+
+    public function __construct($configurationFile = self::DEFAULT_CONFIGURATION_FILE)
+    {
+        $this->configurationFile = $configurationFile;
+    }
+
+    /**
      * Run this specific task
      *
      * @return bool Return if task was successful
@@ -54,7 +66,7 @@ class RegisterContainerImplementations implements Task
     public function runTask()
     {
         $configurationPath = $this->environment->getFullConfigurationPath();
-        $configuration = $this->configurationManager->getConfiguration($configurationPath . '/Configuration.neon');
+        $configuration = $this->configurationManager->getConfiguration($configurationPath . $this->configurationFile);
 
         foreach($configuration['implementations'] as $implementation => $interface)
         {
