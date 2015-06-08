@@ -22,13 +22,8 @@
 namespace Bonefish\Utility\Configuration;
 
 
-use Bonefish\Traits\DoctrineCacheTrait;
-
 class ConfigurationManager implements ConfigurationManagerInterface
 {
-
-    use DoctrineCacheTrait;
-
 
     /**
      * @var \Nette\Neon\Neon
