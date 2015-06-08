@@ -22,7 +22,7 @@
 namespace Bonefish\Utility\Tasks;
 
 use Bonefish\Injection\ContainerInterface;
-use Bonefish\Utility\Configuration\Decorator\CachedConfigurationManager;
+use Bonefish\Utility\Configuration\ConfigurationManager;
 use Bonefish\Utility\Environment;
 
 final class RegisterContainerImplementations implements Task
@@ -36,7 +36,7 @@ final class RegisterContainerImplementations implements Task
     public $environment;
 
     /**
-     * @var CachedConfigurationManager
+     * @var ConfigurationManager
      * @Bonefish\Inject
      */
     public $configurationManager;

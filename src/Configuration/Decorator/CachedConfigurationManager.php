@@ -24,7 +24,6 @@ namespace Bonefish\Utility\Configuration\Decorator;
 use Bonefish\Traits\DoctrineCacheTrait;
 use Bonefish\Utility\Configuration\ConfigurationManager;
 use Bonefish\Utility\Configuration\ConfigurationManagerInterface;
-use Doctrine\Common\Cache\Cache;
 
 final class CachedConfigurationManager implements ConfigurationManagerInterface
 {
@@ -41,12 +40,8 @@ final class CachedConfigurationManager implements ConfigurationManagerInterface
      */
     protected $configurations = [];
 
-    /**
-     * @param Cache $cache
-     */
-    public function __construct(Cache $cache = null)
+    public function __construct()
     {
-        $this->cache = $cache;
         $this->setCachePrefix('bonefish.config.');
     }
 
@@ -59,23 +54,16 @@ final class CachedConfigurationManager implements ConfigurationManagerInterface
     {
         if (!isset($this->configurations[$path])) {
 
-            if ($this->cache !== null) {
-                $cacheKey = $this->getCacheKey($path);
-                $hit = $this->cache->fetch($cacheKey);
+            $cacheKey = $this->getCacheKey($path);
+            $hit = $this->cache->fetch($cacheKey);
 
-                if ($hit !== false) {
-                    return $hit;
-                }
+            if ($hit !== false) {
+                return $hit;
             }
 
             $this->configurations[$path] = $this->configurationManager->getConfiguration($path);
 
-            if ($this->cache !== null) {
-                if (!isset($cacheKey)) {
-                    $cacheKey = $this->getCacheKey($path);
-                }
-                $this->cache->save($cacheKey, $this->configurations[$path]);
-            }
+            $this->cache->save($cacheKey, $this->configurations[$path]);
         }
 
         return $this->configurations[$path];
@@ -102,10 +90,8 @@ final class CachedConfigurationManager implements ConfigurationManagerInterface
 
         if (isset($this->configurations[$path])) {
             $this->configurations[$path] = $data;
-            if ($this->cache !== null) {
-                $cacheKey = $this->getCacheKey($path);
-                $this->cache->save($cacheKey, $this->configurations[$path]);
-            }
+            $cacheKey = $this->getCacheKey($path);
+            $this->cache->save($cacheKey, $this->configurations[$path]);
         }
     }
 }
