@@ -21,9 +21,10 @@
 
 namespace Bonefish\Utility\Configuration\Decorator;
 
-use Bonefish\Traits\DoctrineCacheTrait;
+use Bonefish\Traits\CacheHelperTrait;
 use Bonefish\Utility\Configuration\ConfigurationManager;
 use Bonefish\Utility\Configuration\ConfigurationManagerInterface;
+use Doctrine\Common\Cache\Cache;
 
 final class CachedConfigurationManager implements ConfigurationManagerInterface
 {
@@ -33,7 +34,13 @@ final class CachedConfigurationManager implements ConfigurationManagerInterface
      */
     public $configurationManager;
 
-    use DoctrineCacheTrait;
+    /**
+     * @var Cache
+     * @Bonefish\Inject
+     */
+    public $cache;
+
+    use CacheHelperTrait;
 
     /**
      * @var array
