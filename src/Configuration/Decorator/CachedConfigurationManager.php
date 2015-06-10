@@ -78,11 +78,11 @@ final class CachedConfigurationManager implements ConfigurationManagerInterface
     }
 
     /**
-     * @param array ...$configurations
+     * @param ...$configurations
      * @throws \BadFunctionCallException
      * @return array
      */
-    public function mergeConfigurations(array ...$configurations)
+    public function mergeConfigurations(...$configurations)
     {
         return $this->configurationManager->mergeConfigurations(...$configurations);
     }

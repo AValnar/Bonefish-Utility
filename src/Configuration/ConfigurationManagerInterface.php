@@ -30,11 +30,11 @@ interface ConfigurationManagerInterface
     public function getConfiguration($path);
 
     /**
-     * @param array ...$configurations
+     * @param ...$configurations
      * @throws \BadFunctionCallException
      * @return array
      */
-    public function mergeConfigurations(array ...$configurations);
+    public function mergeConfigurations(...$configurations);
 
     /**
      * @param string $path

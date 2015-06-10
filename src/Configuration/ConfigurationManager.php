@@ -50,11 +50,11 @@ class ConfigurationManager implements ConfigurationManagerInterface
     }
 
     /**
-     * @param array ...$configurations
+     * @param ...$configurations
      * @throws \BadFunctionCallException
      * @return array
      */
-    public function mergeConfigurations(array ...$configurations)
+    public function mergeConfigurations(...$configurations)
     {
         if (count($configurations) < 2) {
             throw new \BadFunctionCallException('At least two configurations have to be supplied to merge.');
