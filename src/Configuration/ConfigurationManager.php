@@ -73,13 +73,5 @@ class ConfigurationManager implements ConfigurationManagerInterface
         $file = $this->neon->encode($data, 1);
 
         file_put_contents($path, $file);
-
-        if (isset($this->configurations[$path])) {
-            $this->configurations[$path] = $data;
-            if ($this->cache !== null) {
-                $cacheKey = $this->getCacheKey($path);
-                $this->cache->save($cacheKey, $this->configurations[$path]);
-            }
-        }
     }
 } 
