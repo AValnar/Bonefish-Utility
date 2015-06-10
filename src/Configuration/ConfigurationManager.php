@@ -21,6 +21,7 @@
 
 namespace Bonefish\Utility\Configuration;
 
+use Bonefish\Injection\Annotations as Bonefish;
 
 class ConfigurationManager implements ConfigurationManagerInterface
 {

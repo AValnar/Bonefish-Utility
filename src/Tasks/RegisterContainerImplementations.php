@@ -24,6 +24,7 @@ namespace Bonefish\Utility\Tasks;
 use Bonefish\Injection\ContainerInterface;
 use Bonefish\Utility\Configuration\ConfigurationManager;
 use Bonefish\Utility\Environment;
+use Bonefish\Injection\Annotations as Bonefish;
 
 final class RegisterContainerImplementations implements Task
 {

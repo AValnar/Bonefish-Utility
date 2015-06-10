@@ -25,6 +25,7 @@ use Bonefish\Traits\CacheHelperTrait;
 use Bonefish\Utility\Configuration\ConfigurationManager;
 use Bonefish\Utility\Configuration\ConfigurationManagerInterface;
 use Doctrine\Common\Cache\Cache;
+use Bonefish\Injection\Annotations as Bonefish;
 
 final class CachedConfigurationManager implements ConfigurationManagerInterface
 {
