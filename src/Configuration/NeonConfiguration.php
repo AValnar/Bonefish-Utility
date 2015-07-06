@@ -22,24 +22,31 @@
 namespace Bonefish\Utility\Configuration;
 
 use Bonefish\Injection\Annotations as Bonefish;
+use Nette\Neon\Neon;
 
-class ConfigurationManager implements ConfigurationManagerInterface
+final class NeonConfiguration implements ConfigurationInterface
 {
 
     /**
-     * @var \Nette\Neon\Neon
+     * @var Neon
+     */
+    protected $neon;
+
+    /**
+     * @param Neon $neon
      * @Bonefish\Inject
      */
-    public $neon;
-
+    public function __construct(Neon $neon)
+    {
+        $this->neon = $neon;
+    }
 
     /**
      * @param string $path
-     * @param bool $useCache
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function getConfiguration($path, $useCache = true)
+    public function getConfiguration($path)
     {
         if (!file_exists($path)) {
             throw new \InvalidArgumentException('Configuration ' . $path . ' does not exist!');

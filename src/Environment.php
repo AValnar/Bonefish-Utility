@@ -47,7 +47,7 @@ final class Environment
     /**
      * @var string
      */
-    protected $logPath  = '/Log';
+    protected $logPath = '/Log';
 
     /**
      * @var bool
@@ -55,31 +55,21 @@ final class Environment
     protected $devMode;
 
     /**
-     * @return boolean
-     */
-    public function isDevMode()
-    {
-        return $this->devMode;
-    }
-
-    /**
-     * @param boolean $devMode
-     * @return self
-     */
-    public function setDevMode($devMode)
-    {
-        $this->devMode = $devMode;
-        return $this;
-    }
-
-    /**
      * @param string $basePath
-     * @return self
+     * @param string $packagePath
+     * @param string $configurationPath
+     * @param string $cachePath
+     * @param string $logPath
+     * @param bool $devMode
      */
-    public function setBasePath($basePath)
+    public function __construct($basePath, $packagePath, $configurationPath, $cachePath, $logPath, $devMode)
     {
         $this->basePath = $basePath;
-        return $this;
+        $this->packagePath = $packagePath;
+        $this->configurationPath = $configurationPath;
+        $this->cachePath = $cachePath;
+        $this->logPath = $logPath;
+        $this->devMode = $devMode;
     }
 
     /**
@@ -88,16 +78,6 @@ final class Environment
     public function getBasePath()
     {
         return $this->basePath;
-    }
-
-    /**
-     * @param string $packagePath
-     * @return self
-     */
-    public function setPackagePath($packagePath)
-    {
-        $this->packagePath = $packagePath;
-        return $this;
     }
 
     /**
@@ -111,24 +91,6 @@ final class Environment
     /**
      * @return string
      */
-    public function getFullPackagePath()
-    {
-        return $this->basePath . $this->packagePath;
-    }
-
-    /**
-     * @param string $configurationPath
-     * @return self
-     */
-    public function setConfigurationPath($configurationPath)
-    {
-        $this->configurationPath = $configurationPath;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getConfigurationPath()
     {
         return $this->configurationPath;
@@ -137,19 +99,9 @@ final class Environment
     /**
      * @return string
      */
-    public function getFullConfigurationPath()
+    public function getCachePath()
     {
-        return $this->basePath . $this->configurationPath;
-    }
-
-    /**
-     * @param string $logPath
-     * @return self
-     */
-    public function setLogPath($logPath)
-    {
-        $this->logPath = $logPath;
-        return $this;
+        return $this->cachePath;
     }
 
     /**
@@ -161,29 +113,36 @@ final class Environment
     }
 
     /**
+     * @return boolean
+     */
+    public function isDevMode()
+    {
+        return $this->devMode;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFullPackagePath()
+    {
+        return $this->basePath . $this->packagePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullConfigurationPath()
+    {
+        return $this->basePath . $this->configurationPath;
+    }
+
+    /**
      * @return string
      */
     public function getFullLogPath()
     {
         return $this->basePath . $this->logPath;
-    }
-
-    /**
-     * @param string $cachePath
-     * @return self
-     */
-    public function setCachePath($cachePath)
-    {
-        $this->cachePath = $cachePath;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCachePath()
-    {
-        return $this->cachePath;
     }
 
     /**

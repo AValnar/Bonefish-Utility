@@ -20,7 +20,7 @@
  */
 namespace Bonefish\Utility\Configuration;
 
-interface ConfigurationManagerInterface
+interface ConfigurationInterface
 {
     /**
      * @param string $path

@@ -22,34 +22,38 @@
 namespace Bonefish\Utility\Configuration\Decorator;
 
 use Bonefish\Traits\CacheHelperTrait;
-use Bonefish\Utility\Configuration\ConfigurationManager;
-use Bonefish\Utility\Configuration\ConfigurationManagerInterface;
+use Bonefish\Utility\Configuration\ConfigurationInterface;
 use Doctrine\Common\Cache\Cache;
 use Bonefish\Injection\Annotations as Bonefish;
 
-final class CachedConfigurationManager implements ConfigurationManagerInterface
+final class CachedConfiguration implements ConfigurationInterface
 {
     /**
-     * @var ConfigurationManager
-     * @Bonefish\Inject
+     * @var ConfigurationInterface
      */
-    public $configurationManager;
+    protected $configuration;
 
     /**
      * @var Cache
-     * @Bonefish\Inject
      */
-    public $cache;
-
-    use CacheHelperTrait;
+    protected $cache;
 
     /**
      * @var array
      */
     protected $configurations = [];
 
-    public function __construct()
+    use CacheHelperTrait;
+
+    /**
+     * @param ConfigurationInterface $configuration
+     * @param Cache $cache
+     * @Bonefish\Inject
+     */
+    public function __construct(ConfigurationInterface $configuration, Cache $cache)
     {
+        $this->configuration = $configuration;
+        $this->cache = $cache;
         $this->setCachePrefix('bonefish.config.');
     }
 
@@ -69,7 +73,7 @@ final class CachedConfigurationManager implements ConfigurationManagerInterface
                 return $hit;
             }
 
-            $this->configurations[$path] = $this->configurationManager->getConfiguration($path);
+            $this->configurations[$path] = $this->configuration->getConfiguration($path);
 
             $this->cache->save($cacheKey, $this->configurations[$path]);
         }
@@ -84,7 +88,7 @@ final class CachedConfigurationManager implements ConfigurationManagerInterface
      */
     public function mergeConfigurations(...$configurations)
     {
-        return $this->configurationManager->mergeConfigurations(...$configurations);
+        return $this->configuration->mergeConfigurations(...$configurations);
     }
 
     /**
@@ -94,7 +98,7 @@ final class CachedConfigurationManager implements ConfigurationManagerInterface
      */
     public function writeConfiguration($path, array $data)
     {
-        $this->configurationManager->writeConfiguration($path, $data);
+        $this->configuration->writeConfiguration($path, $data);
 
         if (isset($this->configurations[$path])) {
             $this->configurations[$path] = $data;
